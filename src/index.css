@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  --color-cream: #F5F0E8;
+  --color-cream-light: #FAF7F2;
+  --color-cream-dark: #EAE3D5;
+  --color-charcoal: #1C1C1C;
+  --color-charcoal-muted: #5A5751;
+  --color-deepred: #8B1E2D;
+  --color-deepred-hover: #731824;
+  --color-gold: #B08D57;
+  --color-gold-light: #C9A979;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background-color: #F5F0E8;
+  color: #1C1C1C;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-serif);
+}
+
+/* Subtle editorial scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F5F0E8;
+}
+::-webkit-scrollbar-thumb {
+  background: #B08D57;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8B1E2D;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Drop cap for articles */
+.drop-cap::first-letter {
+  font-family: var(--font-serif);
+  float: left;
+  font-size: 3.75rem;
+  line-height: 0.85;
+  padding-top: 4px;
+  padding-right: 12px;
+  padding-bottom: 2px;
+  color: #8B1E2D;
+  font-weight: 700;
+}
