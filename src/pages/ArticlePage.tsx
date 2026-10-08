@@ -10,10 +10,13 @@ import {
   Maximize2,
   X,
   Type,
+  ChevronRight,
+  HelpCircle,
 } from 'lucide-react';
 import { BlogArticle } from '../types';
 import { NewsletterCta } from '../components/NewsletterCta';
 import { BlogCard } from '../components/BlogCard';
+import { updatePageSEO } from '../utils/seo';
 
 interface ArticlePageProps {
   article: BlogArticle;
@@ -36,6 +39,24 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
   const [copiedShare, setCopiedShare] = useState(false);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [fontSize, setFontSize] = useState<'normal' | 'large'>('normal');
+
+  // Update dynamic SEO & Structured Data on mount / article change
+  useEffect(() => {
+    updatePageSEO({
+      title: article.seoTitle || `${article.title} | Bits of Bombay`,
+      description: article.metaDescription || article.shortIntro,
+      canonicalPath: `/blogs/${article.slug}`,
+      ogType: 'article',
+      image: article.heroImage,
+      article: article,
+      breadcrumbs: [
+        { name: 'Home', url: '/' },
+        { name: 'Blogs', url: '/blogs' },
+        { name: article.category, url: `/${article.category.toLowerCase().replace(/\s+/g, '-')}` },
+        { name: article.title, url: `/blogs/${article.slug}` },
+      ],
+    });
+  }, [article]);
 
   // Calculate reading scroll progress
   useEffect(() => {
@@ -325,6 +346,32 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
               ))}
             </ul>
           </div>
+
+          {/* AEO Frequently Asked Questions (Answer Engine Optimization) */}
+          {article.aeoFaq && article.aeoFaq.length > 0 && (
+            <section className="my-10 p-7 bg-white rounded-xl border border-[#B08D57]/30 shadow-xs space-y-5" aria-label="Frequently Asked Questions">
+              <div className="flex items-center gap-2 pb-3 border-b border-[#B08D57]/20">
+                <HelpCircle className="w-5 h-5 text-[#8B1E2D]" />
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C]">
+                  Quick Answers & FAQs
+                </h3>
+              </div>
+              <div className="space-y-4">
+                {article.aeoFaq.map((faq, fIdx) => (
+                  <div key={fIdx} className="bg-[#FAF7F2] p-5 rounded-lg border border-[#B08D57]/20 space-y-2">
+                    <h4 className="font-serif font-bold text-base text-[#1C1C1C] flex items-start gap-2">
+                      <span className="text-[#8B1E2D] font-mono text-sm shrink-0">Q:</span>
+                      <span>{faq.question}</span>
+                    </h4>
+                    <p className="text-sm text-[#5A5751] pl-5 leading-relaxed font-sans">
+                      <span className="font-semibold text-[#8B1E2D]">A: </span>
+                      {faq.directAnswer}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Tags */}
           <div className="pt-6 border-t border-[#B08D57]/20 flex items-center gap-2 flex-wrap">

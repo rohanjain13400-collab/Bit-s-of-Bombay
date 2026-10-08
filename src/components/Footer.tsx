@@ -13,14 +13,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   };
 
   const navLinks = [
-    { label: 'Home', view: 'home' },
-    { label: 'Blogs', view: 'blogs' },
-    { label: 'Places', view: 'category', category: 'Places' as Category },
-    { label: 'Food', view: 'category', category: 'Food' as Category },
-    { label: 'Travel', view: 'category', category: 'Travel' as Category },
-    { label: 'Experiences', view: 'category', category: 'Experiences' as Category },
-    { label: 'About', view: 'about' },
-    { label: 'Contact', view: 'contact' },
+    { label: 'Home', view: 'home', path: '/' },
+    { label: 'Blogs Archive', view: 'blogs', path: '/blogs' },
+    { label: 'Places to Visit', view: 'category', category: 'Places' as Category, path: '/places' },
+    { label: 'Food & Street Eats', view: 'category', category: 'Food' as Category, path: '/food' },
+    { label: 'Travel Itineraries', view: 'category', category: 'Travel' as Category, path: '/travel' },
+    { label: 'Monsoon Experiences', view: 'category', category: 'Experiences' as Category, path: '/experiences' },
+    { label: 'About Bits of Bombay', view: 'about', path: '/about' },
+    { label: 'Contact Editorial Desk', view: 'contact', path: '/contact' },
   ];
 
   return (
@@ -101,12 +101,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <ul className="space-y-2.5 text-sm">
               {navLinks.slice(0, 4).map((link) => (
                 <li key={link.label}>
-                  <button
-                    onClick={() => onNavigate(link.view, link.category)}
+                  <a
+                    href={link.path}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onNavigate(link.view, link.category);
+                    }}
                     className="text-[#F5F0E8]/80 hover:text-white hover:translate-x-1 transition-all cursor-pointer inline-block"
                   >
                     {link.label}
-                  </button>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -120,12 +124,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <ul className="space-y-2.5 text-sm">
               {navLinks.slice(4).map((link) => (
                 <li key={link.label}>
-                  <button
-                    onClick={() => onNavigate(link.view, link.category)}
+                  <a
+                    href={link.path}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onNavigate(link.view, link.category);
+                    }}
                     className="text-[#F5F0E8]/80 hover:text-white hover:translate-x-1 transition-all cursor-pointer inline-block"
                   >
                     {link.label}
-                  </button>
+                  </a>
                 </li>
               ))}
               <li>

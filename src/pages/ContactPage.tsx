@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Send, CheckCircle, Mail, MapPin, MessageSquare, Sparkles } from 'lucide-react';
+import { updatePageSEO, SITE_PAGES_SEO } from '../utils/seo';
 
 export const ContactPage: React.FC = () => {
+  useEffect(() => {
+    updatePageSEO(SITE_PAGES_SEO.contact);
+  }, []);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',

@@ -66,11 +66,18 @@ export const BlogCard: React.FC<BlogCardProps> = ({
           </div>
 
           {/* Title */}
-          <h3
-            onClick={() => onSelect(article)}
-            className="font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C] group-hover:text-[#8B1E2D] transition-colors cursor-pointer leading-snug line-clamp-2"
-          >
-            {article.title}
+          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C] group-hover:text-[#8B1E2D] transition-colors leading-snug line-clamp-2">
+            <a
+              href={`/blogs/${article.slug}`}
+              onClick={(e) => {
+                e.preventDefault();
+                onSelect(article);
+              }}
+              className="hover:underline focus:outline-none"
+              title={`Read ${article.title}`}
+            >
+              {article.title}
+            </a>
           </h3>
 
           {/* Description */}
@@ -79,15 +86,20 @@ export const BlogCard: React.FC<BlogCardProps> = ({
           </p>
         </div>
 
-        {/* Action Button: Read Story */}
+        {/* Action Button: Descriptive SEO Anchor Text */}
         <div className="pt-6 mt-4 border-t border-[#B08D57]/15 flex items-center justify-between">
-          <button
-            onClick={() => onSelect(article)}
+          <a
+            href={`/blogs/${article.slug}`}
+            onClick={(e) => {
+              e.preventDefault();
+              onSelect(article);
+            }}
+            aria-label={`Read full ${article.category} guide: ${article.title}`}
             className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-[#8B1E2D] hover:text-[#731824] transition-colors cursor-pointer group/btn"
           >
-            <span>Read Story</span>
+            <span>Read {article.category} Guide</span>
             <ArrowRight className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />
-          </button>
+          </a>
 
           <span className="text-[11px] text-[#5A5751]/80 font-serif italic">
             By {article.author.name}

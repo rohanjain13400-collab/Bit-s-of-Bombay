@@ -66,7 +66,16 @@ export const FeaturedStories: React.FC<FeaturedStoriesProps> = ({
                   </div>
 
                   <h3 className="font-serif text-2xl font-bold text-[#1C1C1C] group-hover:text-[#8B1E2D] transition-colors leading-tight">
-                    {article.title}
+                    <a
+                      href={`/blogs/${article.slug}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onSelect(article);
+                      }}
+                      className="hover:underline focus:outline-none"
+                    >
+                      {article.title}
+                    </a>
                   </h3>
 
                   <p className="text-sm text-[#5A5751] leading-relaxed line-clamp-3">
@@ -74,12 +83,20 @@ export const FeaturedStories: React.FC<FeaturedStoriesProps> = ({
                   </p>
                 </div>
 
-                {/* Read story button */}
+                {/* Read story button with descriptive anchor text */}
                 <div className="pt-4 border-t border-[#B08D57]/15">
-                  <span className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-[#8B1E2D] group-hover:text-[#731824] transition-colors">
-                    <span>Read Story</span>
+                  <a
+                    href={`/blogs/${article.slug}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onSelect(article);
+                    }}
+                    aria-label={`Explore full story: ${article.title}`}
+                    className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-[#8B1E2D] group-hover:text-[#731824] transition-colors"
+                  >
+                    <span>Explore {article.category} Feature</span>
                     <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" />
-                  </span>
+                  </a>
                 </div>
               </div>
             </div>

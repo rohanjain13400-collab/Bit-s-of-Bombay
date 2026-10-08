@@ -34,6 +34,11 @@ export interface ArticleSection {
   };
 }
 
+export interface AEOFaqItem {
+  question: string;
+  directAnswer: string;
+}
+
 export interface BlogArticle {
   id: string;
   slug: string;
@@ -51,4 +56,11 @@ export interface BlogArticle {
   keyTakeaways: string[];
   relatedArticleSlugs: string[];
   tags: string[];
+  // SEO & AEO Enhancements
+  seoTitle?: string;
+  metaDescription?: string;
+  mainKeyword?: string;
+  relatedKeywords?: [string, string];
+  isAEOOptimized?: boolean;
+  aeoFaq?: AEOFaqItem[];
 }

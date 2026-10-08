@@ -112,9 +112,18 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
                   </p>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-[#B08D57]/15 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-[#8B1E2D]">
-                  <span>Browse Category</span>
-                  <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" />
+                <div className="pt-6 mt-6 border-t border-[#B08D57]/15">
+                  <a
+                    href={`/${cat.label.toLowerCase().replace(/\s+/g, '-')}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onSelectCategory(cat.name);
+                    }}
+                    className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-[#8B1E2D] hover:text-[#731824] transition-colors"
+                  >
+                    <span>Browse {cat.label} Stories</span>
+                    <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" />
+                  </a>
                 </div>
               </div>
             );

@@ -11,10 +11,57 @@ import { ContactPage } from './pages/ContactPage';
 import { SearchModal } from './components/SearchModal';
 import { SavedStoriesDrawer } from './components/SavedStoriesDrawer';
 
+function parseRoute(pathname: string, articles: BlogArticle[]): {
+  view: string;
+  category: Category;
+  article: BlogArticle | null;
+} {
+  const normalized = pathname.trim().replace(/\/+$/, '') || '/';
+
+  if (normalized === '/' || normalized === '') {
+    return { view: 'home', category: 'All', article: null };
+  }
+  if (normalized === '/blogs') {
+    return { view: 'blogs', category: 'All', article: null };
+  }
+  if (normalized === '/places') {
+    return { view: 'blogs', category: 'Places', article: null };
+  }
+  if (normalized === '/food') {
+    return { view: 'blogs', category: 'Food', article: null };
+  }
+  if (normalized === '/travel') {
+    return { view: 'blogs', category: 'Travel', article: null };
+  }
+  if (normalized === '/experiences') {
+    return { view: 'blogs', category: 'Experiences', article: null };
+  }
+  if (normalized === '/about') {
+    return { view: 'about', category: 'All', article: null };
+  }
+  if (normalized === '/contact') {
+    return { view: 'contact', category: 'All', article: null };
+  }
+  if (normalized.startsWith('/blogs/')) {
+    const slug = normalized.replace(/^\/blogs\//, '');
+    const found = articles.find((a) => a.slug === slug);
+    if (found) {
+      return { view: 'article', category: found.category, article: found };
+    }
+  }
+
+  return { view: 'home', category: 'All', article: null };
+}
+
 export default function App() {
-  const [currentView, setCurrentView] = useState<string>('home');
-  const [selectedCategory, setSelectedCategory] = useState<Category>('All');
-  const [selectedArticle, setSelectedArticle] = useState<BlogArticle | null>(null);
+  const initialRoute = parseRoute(
+    typeof window !== 'undefined' ? window.location.pathname : '/',
+    BLOGS
+  );
+
+  const [currentView, setCurrentView] = useState<string>(initialRoute.view);
+  const [selectedCategory, setSelectedCategory] = useState<Category>(initialRoute.category);
+  const [selectedArticle, setSelectedArticle] = useState<BlogArticle | null>(initialRoute.article);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isSavedDrawerOpen, setIsSavedDrawerOpen] = useState(false);
 
@@ -35,6 +82,20 @@ export default function App() {
       // Ignore storage errors in restricted contexts
     }
   }, [savedArticleIds]);
+
+  // Synchronize browser back/forward buttons (popstate)
+  useEffect(() => {
+    const handlePopState = () => {
+      const parsed = parseRoute(window.location.pathname, BLOGS);
+      setCurrentView(parsed.view);
+      setSelectedCategory(parsed.category);
+      setSelectedArticle(parsed.article);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   // Global search shortcut (⌘K or Ctrl+K)
   useEffect(() => {
@@ -61,14 +122,34 @@ export default function App() {
   };
 
   const handleNavigate = (view: string, categoryFilter?: Category) => {
+    let targetPath = '/';
+
     if (view === 'category' && categoryFilter) {
+      targetPath = `/${categoryFilter.toLowerCase().replace(/\s+/g, '-')}`;
       setSelectedCategory(categoryFilter);
       setCurrentView('blogs');
+      setSelectedArticle(null);
+    } else if (view === 'blogs') {
+      targetPath = '/blogs';
+      setSelectedCategory(categoryFilter || 'All');
+      setCurrentView('blogs');
+      setSelectedArticle(null);
+    } else if (view === 'about') {
+      targetPath = '/about';
+      setCurrentView('about');
+      setSelectedArticle(null);
+    } else if (view === 'contact') {
+      targetPath = '/contact';
+      setCurrentView('contact');
+      setSelectedArticle(null);
     } else {
-      if (view === 'blogs') {
-        setSelectedCategory(categoryFilter || 'All');
-      }
-      setCurrentView(view);
+      targetPath = '/';
+      setCurrentView('home');
+      setSelectedArticle(null);
+    }
+
+    if (window.location.pathname !== targetPath) {
+      window.history.pushState(null, '', targetPath);
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -76,11 +157,19 @@ export default function App() {
   const handleSelectArticle = (article: BlogArticle) => {
     setSelectedArticle(article);
     setCurrentView('article');
+    const targetPath = `/blogs/${article.slug}`;
+    if (window.location.pathname !== targetPath) {
+      window.history.pushState(null, '', targetPath);
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleBackFromArticle = () => {
     setCurrentView('blogs');
+    setSelectedArticle(null);
+    if (window.location.pathname !== '/blogs') {
+      window.history.pushState(null, '', '/blogs');
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -91,6 +180,7 @@ export default function App() {
       {/* Sticky Navigation Bar */}
       <Navbar
         currentView={currentView}
+        selectedCategory={selectedCategory}
         onNavigate={handleNavigate}
         onOpenSearch={() => setIsSearchOpen(true)}
         onOpenBookmarks={() => setIsSavedDrawerOpen(true)}

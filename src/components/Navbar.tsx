@@ -5,6 +5,7 @@ import { INSTAGRAM_URL, INSTAGRAM_HANDLE } from '../data/cafes';
 
 interface NavbarProps {
   currentView: string;
+  selectedCategory?: Category;
   onNavigate: (view: string, categoryFilter?: Category) => void;
   onOpenSearch: () => void;
   onOpenBookmarks: () => void;
@@ -13,6 +14,7 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({
   currentView,
+  selectedCategory = 'All',
   onNavigate,
   onOpenSearch,
   onOpenBookmarks,
@@ -30,14 +32,14 @@ export const Navbar: React.FC<NavbarProps> = ({
   }, []);
 
   const navItems = [
-    { label: 'Home', view: 'home' },
-    { label: 'Blogs', view: 'blogs' },
-    { label: 'Places', view: 'category', category: 'Places' as Category },
-    { label: 'Food', view: 'category', category: 'Food' as Category },
-    { label: 'Travel', view: 'category', category: 'Travel' as Category },
-    { label: 'Experiences', view: 'category', category: 'Experiences' as Category },
-    { label: 'About', view: 'about' },
-    { label: 'Contact', view: 'contact' },
+    { label: 'Home', view: 'home', path: '/' },
+    { label: 'Blogs', view: 'blogs', path: '/blogs' },
+    { label: 'Places', view: 'category', category: 'Places' as Category, path: '/places' },
+    { label: 'Food', view: 'category', category: 'Food' as Category, path: '/food' },
+    { label: 'Travel', view: 'category', category: 'Travel' as Category, path: '/travel' },
+    { label: 'Experiences', view: 'category', category: 'Experiences' as Category, path: '/experiences' },
+    { label: 'About', view: 'about', path: '/about' },
+    { label: 'Contact', view: 'contact', path: '/contact' },
   ];
 
   const handleNavClick = (view: string, category?: Category) => {
@@ -56,10 +58,15 @@ export const Navbar: React.FC<NavbarProps> = ({
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Brand Logo */}
-          <button
-            onClick={() => handleNavClick('home')}
+          {/* Brand Logo as Semantic Link */}
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick('home');
+            }}
             className="text-left group cursor-pointer focus:outline-none"
+            aria-label="Bits of Bombay Home"
           >
             <div className="flex items-center gap-2">
               <span className="font-serif text-2xl sm:text-3xl font-extrabold tracking-wider text-[#1C1C1C] group-hover:text-[#8B1E2D] transition-colors">
@@ -70,18 +77,23 @@ export const Navbar: React.FC<NavbarProps> = ({
             <p className="text-[10px] sm:text-[11px] tracking-widest text-[#B08D57] font-medium uppercase hidden sm:block">
               Stories, Streets & Experiences
             </p>
-          </button>
+          </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center space-x-7">
+          <nav className="hidden lg:flex items-center space-x-7" aria-label="Main Navigation">
             {navItems.map((item) => {
               const isActive =
-                currentView === item.view ||
-                (currentView === 'category' && item.category && item.view === 'category');
+                item.view === currentView && !item.category
+                  ? (currentView === 'blogs' ? selectedCategory === 'All' : true)
+                  : currentView === 'blogs' && item.category === selectedCategory;
               return (
-                <button
+                <a
                   key={item.label}
-                  onClick={() => handleNavClick(item.view, item.category)}
+                  href={item.path}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(item.view, item.category);
+                  }}
                   className={`text-sm tracking-wide transition-all cursor-pointer relative py-1 focus:outline-none ${
                     isActive
                       ? 'text-[#8B1E2D] font-semibold'
@@ -92,7 +104,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   {isActive && (
                     <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#8B1E2D] rounded-full" />
                   )}
-                </button>
+                </a>
               );
             })}
           </nav>
@@ -156,16 +168,30 @@ export const Navbar: React.FC<NavbarProps> = ({
       {isMobileMenuOpen && (
         <div className="lg:hidden bg-[#F5F0E8] border-b border-[#B08D57]/20 px-4 pt-3 pb-6 animate-in slide-in-from-top duration-200">
           <div className="flex flex-col space-y-2">
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                onClick={() => handleNavClick(item.view, item.category)}
-                className="text-left py-2.5 px-3 rounded-md text-base font-medium text-[#1C1C1C] hover:text-[#8B1E2D] hover:bg-[#FAF7F2] transition-colors cursor-pointer flex items-center justify-between"
-              >
-                <span>{item.label}</span>
-                <Compass className="w-4 h-4 text-[#B08D57]/60" />
-              </button>
-            ))}
+            {navItems.map((item) => {
+              const isActive =
+                item.view === currentView && !item.category
+                  ? (currentView === 'blogs' ? selectedCategory === 'All' : true)
+                  : currentView === 'blogs' && item.category === selectedCategory;
+              return (
+                <a
+                  key={item.label}
+                  href={item.path}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(item.view, item.category);
+                  }}
+                  className={`text-left py-2.5 px-3 rounded-md text-base font-medium transition-colors cursor-pointer flex items-center justify-between ${
+                    isActive
+                      ? 'text-[#8B1E2D] bg-[#FAF7F2] font-bold'
+                      : 'text-[#1C1C1C] hover:text-[#8B1E2D] hover:bg-[#FAF7F2]'
+                  }`}
+                >
+                  <span>{item.label}</span>
+                  <Compass className={`w-4 h-4 ${isActive ? 'text-[#8B1E2D]' : 'text-[#B08D57]/60'}`} />
+                </a>
+              );
+            })}
             <a
               href={INSTAGRAM_URL}
               target="_blank"

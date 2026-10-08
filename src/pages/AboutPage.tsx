@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Compass, BookOpen, Camera, Palette, Type, Sparkles, Heart } from 'lucide-react';
 import { heroImage } from '../data/blogs';
+import { updatePageSEO, SITE_PAGES_SEO } from '../utils/seo';
 
 export const AboutPage: React.FC = () => {
+  useEffect(() => {
+    updatePageSEO(SITE_PAGES_SEO.about);
+  }, []);
+
   const colorSwatches = [
     { name: 'Cream', hex: '#F5F0E8', role: 'Main background, warm editorial canvas', textDark: true },
     { name: 'Charcoal', hex: '#1C1C1C', role: 'Primary typography, strong contrast & depth', textDark: false },

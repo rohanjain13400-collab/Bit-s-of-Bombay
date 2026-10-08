@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, SlidersHorizontal, BookOpen, Coffee, Instagram } from 'lucide-react';
 import { BlogArticle, Category } from '../types';
 import { BlogCard } from '../components/BlogCard';
 import { CafeRatingsSection } from '../components/CafeRatingsSection';
 import { INSTAGRAM_URL, INSTAGRAM_HANDLE } from '../data/cafes';
+import { updatePageSEO, SITE_PAGES_SEO } from '../utils/seo';
 
 interface BlogsPageProps {
   articles: BlogArticle[];
@@ -23,6 +24,15 @@ export const BlogsPage: React.FC<BlogsPageProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<Category>(initialCategory);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'default' | 'readingTime'>('default');
+
+  useEffect(() => {
+    const catLower = selectedCategory.toLowerCase().replace(/\s+/g, '-');
+    if (SITE_PAGES_SEO[catLower]) {
+      updatePageSEO(SITE_PAGES_SEO[catLower]);
+    } else {
+      updatePageSEO(SITE_PAGES_SEO.blogs);
+    }
+  }, [selectedCategory]);
 
   const categories: Category[] = [
     'All',

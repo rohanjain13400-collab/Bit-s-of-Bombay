@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { ArrowDown, Compass, BookOpen, Mail, Instagram, ExternalLink, Coffee } from 'lucide-react';
 import { BlogArticle, Category } from '../types';
 import { heroImage } from '../data/blogs';
@@ -8,6 +8,7 @@ import { BlogCard } from '../components/BlogCard';
 import { CafeRatingsSection } from '../components/CafeRatingsSection';
 import { NewsletterCta } from '../components/NewsletterCta';
 import { INSTAGRAM_URL, INSTAGRAM_HANDLE, CONTACT_EMAIL } from '../data/cafes';
+import { updatePageSEO, SITE_PAGES_SEO } from '../utils/seo';
 
 interface HomePageProps {
   articles: BlogArticle[];
@@ -24,6 +25,10 @@ export const HomePage: React.FC<HomePageProps> = ({
   savedArticleIds,
   onToggleBookmark,
 }) => {
+  useEffect(() => {
+    updatePageSEO(SITE_PAGES_SEO.home);
+  }, []);
+
   const latestStoriesRef = useRef<HTMLDivElement>(null);
   const categoriesRef = useRef<HTMLDivElement>(null);
   const cafesRef = useRef<HTMLDivElement>(null);
