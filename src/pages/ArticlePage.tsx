@@ -401,7 +401,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
               className="w-full h-auto max-h-[85vh] object-contain rounded-lg shadow-2xl"
             />
             <p className="text-white/80 text-xs text-center mt-3 font-serif italic">
-              {article.imageAlt} — Mumbai Diaries Photography
+              {article.imageAlt} — Bits of Bombay Photography
             </p>
           </div>
         </div>

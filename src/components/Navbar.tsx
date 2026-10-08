@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Bookmark, Menu, X, Compass } from 'lucide-react';
+import { Search, Bookmark, Menu, X, Compass, Instagram } from 'lucide-react';
 import { Category } from '../types';
+import { INSTAGRAM_URL, INSTAGRAM_HANDLE } from '../data/cafes';
 
 interface NavbarProps {
   currentView: string;
@@ -62,7 +63,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <div className="flex items-center gap-2">
               <span className="font-serif text-2xl sm:text-3xl font-extrabold tracking-wider text-[#1C1C1C] group-hover:text-[#8B1E2D] transition-colors">
-                MUMBAI DIARIES
+                BITS OF BOMBAY
               </span>
               <span className="w-2 h-2 rounded-full bg-[#8B1E2D] self-baseline mt-2"></span>
             </div>
@@ -112,6 +113,18 @@ export const Navbar: React.FC<NavbarProps> = ({
               </kbd>
             </button>
 
+            {/* Instagram Profile */}
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-full border border-[#B08D57]/20 hover:border-[#8B1E2D] hover:bg-[#FAF7F2] text-[#1C1C1C] hover:text-[#8B1E2D] transition-colors cursor-pointer focus:outline-none"
+              title={`Visit ${INSTAGRAM_HANDLE} on Instagram`}
+              aria-label="Instagram profile"
+            >
+              <Instagram className="w-4 h-4" />
+            </a>
+
             {/* Saved Bookmarks */}
             <button
               onClick={onOpenBookmarks}
@@ -153,11 +166,20 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <Compass className="w-4 h-4 text-[#B08D57]/60" />
               </button>
             ))}
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-2.5 px-3 rounded-md text-base font-medium text-[#8B1E2D] hover:bg-[#FAF7F2] transition-colors flex items-center justify-between"
+            >
+              <span>Instagram {INSTAGRAM_HANDLE}</span>
+              <Instagram className="w-4 h-4" />
+            </a>
           </div>
 
           <div className="mt-4 pt-4 border-t border-[#B08D57]/20 flex items-center justify-between text-xs text-[#5A5751]">
             <span>Stories, Streets & Experiences</span>
-            <span className="text-[#8B1E2D] font-serif font-bold">Mumbai Diaries</span>
+            <span className="text-[#8B1E2D] font-serif font-bold">Bits of Bombay</span>
           </div>
         </div>
       )}

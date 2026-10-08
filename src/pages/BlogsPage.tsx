@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Search, SlidersHorizontal, BookOpen } from 'lucide-react';
+import { Search, SlidersHorizontal, BookOpen, Coffee, Instagram } from 'lucide-react';
 import { BlogArticle, Category } from '../types';
 import { BlogCard } from '../components/BlogCard';
+import { CafeRatingsSection } from '../components/CafeRatingsSection';
+import { INSTAGRAM_URL, INSTAGRAM_HANDLE } from '../data/cafes';
 
 interface BlogsPageProps {
   articles: BlogArticle[];
@@ -66,7 +68,7 @@ export const BlogsPage: React.FC<BlogsPageProps> = ({
           All Stories & Field Notes
         </h1>
         <p className="text-sm sm:text-base text-[#5A5751] font-sans leading-relaxed">
-          Ten comprehensive essays capturing the aromas, railway corridors, monsoon skies, and human warmth of Mumbai.
+          Ten comprehensive essays capturing the aromas, railway corridors, monsoon skies, artisanal cafes, and human warmth of Bombay.
         </p>
       </div>
 
@@ -152,6 +154,13 @@ export const BlogsPage: React.FC<BlogsPageProps> = ({
               onToggleBookmark={onToggleBookmark}
             />
           ))}
+        </div>
+      )}
+
+      {/* Embedded Cafe Ratings when exploring Lifestyle or All */}
+      {(selectedCategory === 'Lifestyle' || selectedCategory === 'All') && (
+        <div className="mt-20">
+          <CafeRatingsSection />
         </div>
       )}
     </div>

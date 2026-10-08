@@ -61,7 +61,12 @@ export const ContactPage: React.FC = () => {
                 <strong className="text-[#1C1C1C] block text-xs uppercase tracking-wider">
                   Direct Inquiries
                 </strong>
-                <span>editor@mumbaidiaries.org</span>
+                <a
+                  href="mailto:contact@bitsofbombae.com"
+                  className="text-[#8B1E2D] hover:underline font-medium"
+                >
+                  contact@bitsofbombae.com
+                </a>
               </div>
             </div>
 
@@ -69,9 +74,16 @@ export const ContactPage: React.FC = () => {
               <MessageSquare className="w-5 h-5 text-[#8B1E2D] shrink-0 mt-0.5" />
               <div>
                 <strong className="text-[#1C1C1C] block text-xs uppercase tracking-wider">
-                  Submissions
+                  Instagram Channel
                 </strong>
-                <span>Pitch photography portfolios and local street food dispatches.</span>
+                <a
+                  href="https://www.instagram.com/bitsofbombae?stkn=MTIybXJqOTlpZDB5eQ=="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#B08D57] hover:text-[#8B1E2D] underline font-medium"
+                >
+                  @bitsofbombae
+                </a>
               </div>
             </div>
           </div>
@@ -79,10 +91,10 @@ export const ContactPage: React.FC = () => {
           <div className="p-6 bg-[#FAF7F2] rounded-xl border border-[#B08D57]/30">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#B08D57] mb-2">
               <Sparkles className="w-4 h-4 text-[#8B1E2D]" />
-              <span>Story Pitch Policy</span>
+              <span>Story & Café Pitch Policy</span>
             </div>
             <p className="text-xs text-[#5A5751] leading-relaxed">
-              We prioritize original eyewitness storytelling, human profiles of everyday Mumbaikars, and genuine hidden corners over sponsored tourist traps.
+              We prioritize authentic eyewitness storytelling, honest café reviews, and genuine Bombay gems over sponsored promotion. Pitch your cafe discoveries directly through this form or DM us on Instagram @bitsofbombae.
             </p>
           </div>
         </div>
@@ -96,7 +108,7 @@ export const ContactPage: React.FC = () => {
                   <CheckCircle className="w-8 h-8" />
                 </div>
                 <h3 className="font-serif text-2xl sm:text-3xl font-extrabold text-[#1C1C1C]">
-                  Thank you for reaching out to Mumbai Diaries!
+                  Thank you for reaching out to Bits of Bombay!
                 </h3>
                 <p className="text-sm text-[#5A5751] max-w-md mx-auto leading-relaxed">
                   Your message has been received by our editorial team. We read every dispatch and typically respond within 24–48 hours.
@@ -176,7 +188,7 @@ export const ContactPage: React.FC = () => {
                     rows={5}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Share your thoughts, tips, or questions with Mumbai Diaries..."
+                    placeholder="Share your thoughts, tips, or questions with Bits of Bombay..."
                     className="w-full px-4 py-3 rounded-md bg-[#FAF7F2] border border-[#B08D57]/30 text-sm text-[#1C1C1C] placeholder-[#5A5751]/50 focus:outline-none focus:ring-2 focus:ring-[#8B1E2D]/30 focus:border-[#8B1E2D]"
                   ></textarea>
                 </div>

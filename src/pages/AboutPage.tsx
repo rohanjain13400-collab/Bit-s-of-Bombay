@@ -34,7 +34,7 @@ export const AboutPage: React.FC = () => {
         </h1>
         <div className="space-y-5 text-base sm:text-lg text-[#5A5751] leading-relaxed font-sans text-left sm:text-justify">
           <p>
-            <strong className="text-[#1C1C1C]">Mumbai Diaries</strong> is a digital magazine celebrating Mumbai through its streets, food, people, places, and everyday experiences. Born as a rigorous college design and journalism publication project, it was conceived to transcend basic student blogs and deliver a real, authentic, premium digital travel publication.
+            <strong className="text-[#1C1C1C]">Bits of Bombay</strong> is a digital magazine celebrating Mumbai and Bombay through its artisanal cafes, street gastronomy, people, places, and everyday experiences. Born as a rigorous design and journalism publication project and supported by the community channel <a href="https://www.instagram.com/bitsofbombae?stkn=MTIybXJqOTlpZDB5eQ==" target="_blank" rel="noopener noreferrer" className="text-[#8B1E2D] font-bold underline">@bitsofbombae</a>, it was conceived to transcend basic student blogs and deliver a real, authentic, premium digital travel publication.
           </p>
           <p>
             The website explores both the iconic and lesser-known sides of Mumbai, bringing together travel inspiration, food culture, city stories, and everyday moments. We do not look at Mumbai through a clinical tourist lens or generic itineraries. Instead, we chronicle the city as a living, breathing emotional tapestry.
@@ -83,7 +83,7 @@ export const AboutPage: React.FC = () => {
             Visual Identity & Aesthetic System
           </h2>
           <p className="text-sm text-[#5A5751] mt-1 font-sans">
-            How Mumbai Diaries translates the spirit of the City of Dreams into color, typography, texture, and mood.
+            How Bits of Bombay translates the spirit of the City of Dreams into color, typography, texture, and mood.
           </p>
         </div>
 

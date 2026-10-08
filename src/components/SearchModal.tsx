@@ -168,7 +168,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
 
         {/* Modal Footer */}
         <div className="px-5 py-3 bg-[#EAE3D5]/50 border-t border-[#B08D57]/20 flex items-center justify-between text-xs text-[#5A5751]">
-          <span>Mumbai Diaries Instant Search</span>
+          <span>Bits of Bombay Instant Search</span>
           <button
             onClick={onClose}
             className="text-xs text-[#8B1E2D] font-semibold hover:underline cursor-pointer"

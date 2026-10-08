@@ -1,6 +1,7 @@
 import React from 'react';
-import { Instagram, Twitter, Compass, MapPin, Mail, ArrowUp } from 'lucide-react';
+import { Instagram, Twitter, Compass, MapPin, Mail, ArrowUp, ExternalLink } from 'lucide-react';
 import { Category } from '../types';
+import { INSTAGRAM_URL, INSTAGRAM_HANDLE, CONTACT_EMAIL } from '../data/cafes';
 
 interface FooterProps {
   onNavigate: (view: string, categoryFilter?: Category) => void;
@@ -30,7 +31,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-2">
               <span className="font-serif text-3xl font-extrabold tracking-wider text-white">
-                MUMBAI DIARIES
+                BITS OF BOMBAY
               </span>
               <span className="w-2.5 h-2.5 rounded-full bg-[#8B1E2D]"></span>
             </div>
@@ -38,16 +39,30 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               “Stories, Streets & Experiences from the City of Dreams.”
             </p>
             <p className="text-sm text-[#F5F0E8]/70 leading-relaxed max-w-md pt-1">
-              A curated digital travel and lifestyle magazine celebrating the pulse, culinary heritage, timeless promenades, and everyday magic of Mumbai.
+              A curated digital travel and lifestyle magazine celebrating Bombay's cafe culture, street gastronomy, timeless promenades, and everyday urban magic.
             </p>
+
+            {/* Direct Contact Email */}
+            <div className="pt-2 flex items-center gap-2 text-xs text-[#F5F0E8]/90">
+              <Mail className="w-4 h-4 text-[#8B1E2D]" />
+              <span>Contact:</span>
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="text-[#B08D57] hover:text-white underline underline-offset-2 font-mono"
+              >
+                {CONTACT_EMAIL}
+              </a>
+            </div>
 
             {/* Social Icons */}
             <div className="flex items-center space-x-4 pt-3">
               <a
-                href="#social"
-                onClick={(e) => e.preventDefault()}
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full bg-[#FAF7F2]/10 hover:bg-[#8B1E2D] flex items-center justify-center text-[#F5F0E8] transition-colors"
-                aria-label="Instagram"
+                aria-label={`Follow ${INSTAGRAM_HANDLE} on Instagram`}
+                title={`Instagram ${INSTAGRAM_HANDLE}`}
               >
                 <Instagram className="w-4 h-4" />
               </a>
@@ -68,10 +83,10 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 <Compass className="w-4 h-4" />
               </a>
               <a
-                href="#social"
-                onClick={(e) => e.preventDefault()}
+                href={`mailto:${CONTACT_EMAIL}`}
                 className="w-9 h-9 rounded-full bg-[#FAF7F2]/10 hover:bg-[#8B1E2D] flex items-center justify-center text-[#F5F0E8] transition-colors"
-                aria-label="Newsletter"
+                aria-label="Direct Email"
+                title={`Email ${CONTACT_EMAIL}`}
               >
                 <Mail className="w-4 h-4" />
               </a>
@@ -100,7 +115,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           {/* Secondary Links & Sections */}
           <div className="md:col-span-4 space-y-4">
             <h4 className="text-xs uppercase tracking-widest text-[#B08D57] font-semibold">
-              Exploration & About
+              Exploration & Community
             </h4>
             <ul className="space-y-2.5 text-sm">
               {navLinks.slice(4).map((link) => (
@@ -113,20 +128,32 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   </button>
                 </li>
               ))}
+              <li>
+                <a
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#B08D57] hover:text-white flex items-center gap-1.5 transition-colors"
+                >
+                  <Instagram className="w-3.5 h-3.5" />
+                  <span>Instagram {INSTAGRAM_HANDLE}</span>
+                  <ExternalLink className="w-3 h-3 opacity-60" />
+                </a>
+              </li>
             </ul>
             <div className="pt-2 flex items-center gap-2 text-xs text-[#F5F0E8]/60">
               <MapPin className="w-3.5 h-3.5 text-[#B08D57]" />
-              <span>Curated in South Bombay & Bandra, Mumbai</span>
+              <span>Curated across South Bombay & Bandra</span>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar: Copyright & Scroll to Top */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#F5F0E8]/60 gap-4">
-          <p>© 2026 Mumbai Diaries. All rights reserved.</p>
+          <p>© 2026 Bits of Bombay. All rights reserved.</p>
 
           <div className="flex items-center gap-6">
-            <span>A College Digital Travel Magazine Project</span>
+            <span>A Digital Travel & Lifestyle Publication Project</span>
             <button
               onClick={scrollToTop}
               className="flex items-center gap-1.5 text-[#B08D57] hover:text-white transition-colors cursor-pointer group"
@@ -141,3 +168,4 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
     </footer>
   );
 };
+

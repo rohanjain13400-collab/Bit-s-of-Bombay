@@ -21,7 +21,7 @@ export default function App() {
   // Bookmarks with local storage persistence
   const [savedArticleIds, setSavedArticleIds] = useState<string[]>(() => {
     try {
-      const saved = localStorage.getItem('mumbai_diaries_saved');
+      const saved = localStorage.getItem('bitsofbombay_saved') || localStorage.getItem('mumbai_diaries_saved');
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
@@ -30,7 +30,7 @@ export default function App() {
 
   useEffect(() => {
     try {
-      localStorage.setItem('mumbai_diaries_saved', JSON.stringify(savedArticleIds));
+      localStorage.setItem('bitsofbombay_saved', JSON.stringify(savedArticleIds));
     } catch {
       // Ignore storage errors in restricted contexts
     }
