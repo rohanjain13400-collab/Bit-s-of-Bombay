@@ -90,6 +90,16 @@ export const SITE_PAGES_SEO: Record<string, PageSEOConfig> = {
       { name: 'Contact', url: '/contact' },
     ],
   },
+  notFound: {
+    title: '404: Story Not Found | Bits of Bombay Magazine',
+    description: 'The requested story or page could not be found on Bits of Bombay. Discover curated Mumbai street food guides, heritage itineraries, and local culture.',
+    canonicalPath: '/',
+    ogType: 'website',
+    breadcrumbs: [
+      { name: 'Home', url: '/' },
+      { name: '404 Not Found', url: '/' },
+    ],
+  },
 };
 
 /**

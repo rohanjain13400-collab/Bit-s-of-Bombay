@@ -8,6 +8,7 @@ import { BlogsPage } from './pages/BlogsPage';
 import { ArticlePage } from './pages/ArticlePage';
 import { AboutPage } from './pages/AboutPage';
 import { ContactPage } from './pages/ContactPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 import { SearchModal } from './components/SearchModal';
 import { SavedStoriesDrawer } from './components/SavedStoriesDrawer';
 
@@ -16,41 +17,92 @@ function parseRoute(pathname: string, articles: BlogArticle[]): {
   category: Category;
   article: BlogArticle | null;
 } {
-  const normalized = pathname.trim().replace(/\/+$/, '') || '/';
+  let cleanPath = '/';
+  try {
+    cleanPath = decodeURIComponent(pathname.trim()).replace(/\/+$/, '') || '/';
+  } catch {
+    cleanPath = pathname.trim().replace(/\/+$/, '') || '/';
+  }
 
-  if (normalized === '/' || normalized === '') {
+  const lowerPath = cleanPath.toLowerCase();
+
+  // 1. Root / Home
+  if (lowerPath === '/' || lowerPath === '') {
     return { view: 'home', category: 'All', article: null };
   }
-  if (normalized === '/blogs') {
+
+  // 2. All Blogs / Editorial Archive
+  if (
+    lowerPath === '/blogs' ||
+    lowerPath === '/blog' ||
+    lowerPath === '/stories' ||
+    lowerPath === '/articles'
+  ) {
     return { view: 'blogs', category: 'All', article: null };
   }
-  if (normalized === '/places') {
+
+  // 3. Category Archives
+  if (
+    lowerPath === '/places' ||
+    lowerPath === '/blogs/places' ||
+    lowerPath === '/category/places' ||
+    lowerPath === '/categories/places'
+  ) {
     return { view: 'blogs', category: 'Places', article: null };
   }
-  if (normalized === '/food') {
+  if (
+    lowerPath === '/food' ||
+    lowerPath === '/blogs/food' ||
+    lowerPath === '/category/food' ||
+    lowerPath === '/categories/food'
+  ) {
     return { view: 'blogs', category: 'Food', article: null };
   }
-  if (normalized === '/travel') {
+  if (
+    lowerPath === '/travel' ||
+    lowerPath === '/blogs/travel' ||
+    lowerPath === '/category/travel' ||
+    lowerPath === '/categories/travel'
+  ) {
     return { view: 'blogs', category: 'Travel', article: null };
   }
-  if (normalized === '/experiences') {
+  if (
+    lowerPath === '/experiences' ||
+    lowerPath === '/blogs/experiences' ||
+    lowerPath === '/category/experiences' ||
+    lowerPath === '/categories/experiences'
+  ) {
     return { view: 'blogs', category: 'Experiences', article: null };
   }
-  if (normalized === '/about') {
+
+  // 4. Static Pages
+  if (lowerPath === '/about' || lowerPath === '/about-us') {
     return { view: 'about', category: 'All', article: null };
   }
-  if (normalized === '/contact') {
+  if (lowerPath === '/contact' || lowerPath === '/contact-us') {
     return { view: 'contact', category: 'All', article: null };
   }
-  if (normalized.startsWith('/blogs/')) {
-    const slug = normalized.replace(/^\/blogs\//, '');
-    const found = articles.find((a) => a.slug === slug);
+
+  // 5. Individual Blog Articles: /blogs/:slug, /blog/:slug, /article/:slug, /articles/:slug
+  const blogPrefixMatch = lowerPath.match(/^\/(?:blogs|blog|article|articles)\/(.+)$/);
+  if (blogPrefixMatch) {
+    const rawSlug = blogPrefixMatch[1].replace(/\/+$/, '').trim();
+    const found = articles.find((a) => a.slug.toLowerCase() === rawSlug);
     if (found) {
       return { view: 'article', category: found.category, article: found };
     }
+    return { view: 'not-found', category: 'All', article: null };
   }
 
-  return { view: 'home', category: 'All', article: null };
+  // 6. Direct slug check: /:slug (e.g. /mumbai-in-24-hours)
+  const directSlug = lowerPath.replace(/^\//, '').replace(/\/+$/, '').trim();
+  const directFound = articles.find((a) => a.slug.toLowerCase() === directSlug);
+  if (directFound) {
+    return { view: 'article', category: directFound.category, article: directFound };
+  }
+
+  // 7. Unmatched route
+  return { view: 'not-found', category: 'All', article: null };
 }
 
 export default function App() {
@@ -224,6 +276,16 @@ export default function App() {
         {currentView === 'about' && <AboutPage />}
 
         {currentView === 'contact' && <ContactPage />}
+
+        {currentView === 'not-found' && (
+          <NotFoundPage
+            onNavigate={handleNavigate}
+            onSelectArticle={handleSelectArticle}
+            popularArticles={BLOGS}
+            savedArticleIds={savedArticleIds}
+            onToggleBookmark={handleToggleBookmark}
+          />
+        )}
       </main>
 
       {/* Global Footer */}
