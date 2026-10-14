@@ -10,7 +10,7 @@ export interface PageSEOConfig {
   breadcrumbs?: { name: string; url: string }[];
 }
 
-export const BASE_SITE_URL = 'https://bitsofbombay.com';
+export const BASE_SITE_URL = 'https://bit-s-of-bombay.vercel.app';
 
 export const SITE_PAGES_SEO: Record<string, PageSEOConfig> = {
   home: {

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://bitsofbombay.com/sitemap.xml
+Sitemap: https://bit-s-of-bombay.vercel.app/sitemap.xml
